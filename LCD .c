@@ -4,9 +4,9 @@
 int i, j;
 int lcd[2][16];
 int D[8]={0,1,2,3,4,5,6,7};
-
+uint8_t data
 void LCD_init(){
-    SIM->SCGC4 |= SIM_SCGC4_I2C1_MASK
+    SIM->SCGC4 |= SIM_SCGC4_I2C1_MASK;
     SIM->SCGC5|=SIM_SCGC5_PORTC_MASK;
     SIM->SCGC5|=SIM_SCGC5_PORTD_MASK;
     PORTC->PCR[10] = PORT_PCR_MUX(2);
@@ -20,12 +20,15 @@ void LCD_init(){
     I2C1->F = 0x14;
 }
 void LCD_sendByte(uint8_t byte){
-    I2C1->C1 |= IC_C1_TX_MASK;
-    I2C1->C1 |= IC_C1_MST_MASK;
+    I2C1->C1 |= I2C_C1_TX_MASK;
+    I2C1->C1 |= I2C_C1_MST_MASK;
     I2C1->C1 &=~I2C_C1_MST_MASK;
+    printf("");
+    scanf("%c\n", &lcd[i][j]); 
+
 }
 void LCD_sendCmd(uint8_t command){
-    uint8_t parteMS = comand & 0xF0;
+    uint8_t parteMS =( command & 0xF0);
     uint8_t parteLS =(command << 4) & 0xF0;
     LCD_sendByte(parteMS|0x08);
     LCD_sendByte(parteLS|0x08);
@@ -82,6 +85,7 @@ void LCD_print(){
                     }
                 }
             }
+            scanf("%c\n", &lcd[i][j]); 
         }
     }
 }
